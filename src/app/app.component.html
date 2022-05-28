@@ -1,21 +1,17 @@
-<div class="center">
-  <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
-                 (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-      Optional custom content that replaces the the entire default content.
-      <button type="button" (click)="openFileSelector()">Browse Files</button>
-    </ng-template>
-  </ngx-file-drop>
+<ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)">
+  <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+    Drag and Drop or click
+    <button (click)="openFileSelector()">Browse Files</button>
+  </ng-template>
+</ngx-file-drop>
 
-  <hr>
-  <tag-input (onRemove)="onItemRemoved()"
-             (onAdd)="onItemAdded($event)" [(ngModel)]='items'></tag-input>
-  <hr>
-
-  <div class="pdf-files-wrapper">
-    <ng-container *ngFor="let item of files; let i=index">
-      <ng-container *ngIf="item.visible">
-        <div class="pdf-files-wrapper-child">
+<tag-input (onRemove)="onItemRemoved()" [disable]="!(files.length > 0)"
+           (onAdd)="onItemAdded($event)" [(ngModel)]='items'></tag-input>
+<div class="pdf-files-wrapper">
+  <ng-container *ngFor="let item of files; let i=index">
+    <ng-container *ngIf="item.visible">
+      <div class="pdf-files-wrapper-child">
+        <div style="width: 25%">
           <button (click)="decreaseZoom(item)">
             <svg
               xmlns="http://www.w3.org/2000/svg" width="20"
@@ -40,24 +36,23 @@
               <line x1="8" y1="11" x2="14" y2="11"></line>
             </svg>
           </button>
-          <pdf-viewer [src]="item.pdfSource"
-                      [render-text]="true"
-                      [autoresize]="true"
-                      [fit-to-page]="true"
-                      [original-size]="false"
-
-                      [zoom]="item.zoom"
-                      style="width: 25%; height: 500px"
-          ></pdf-viewer>
         </div>
-      </ng-container>
+        <pdf-viewer [src]="item.pdfSource"
+                    [render-text]="true"
+                    [autoresize]="true"
+                    [fit-to-page]="true"
+                    [original-size]="false"
 
+                    [zoom]="item.zoom"
+                    style="width: 25%; height: 500px"
+        ></pdf-viewer>
+      </div>
     </ng-container>
-  </div>
-</div>
 
+  </ng-container>
+</div>
 found:{{found}}
 
-<button (click)="reset()">Reset</button>
+<button (click)="resetVisibility()">Reset</button>
 
 

@@ -26,8 +26,8 @@ export class AppComponent {
 
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files as any;
+    this.resetVisibility();
 
-    this.reset();
     for (let i = 0; i < this.files.length; i++) {
       const droppedFile = this.files[i];
       if (droppedFile.fileEntry.isFile) {
@@ -36,7 +36,7 @@ export class AppComponent {
           file.arrayBuffer()
             .then(v => {
               this.files[i].pdfSource = new Uint8Array(v);
-              this.files[i].zoom = 0;
+              this.files[i].zoom = 1;
             })
         });
       } else {
@@ -47,13 +47,6 @@ export class AppComponent {
     }
   }
 
-  public fileOver(event: any) {
-    console.log(event);
-  }
-
-  public fileLeave(event: any) {
-    console.log(event);
-  }
 
   public changePage(page: any, data: Array<any>): Array<any> {
     let start = (page.page - 1) * page.itemsPerPage;
@@ -67,20 +60,22 @@ export class AppComponent {
 
   onItemRemoved() {
     if (this.items?.length === 0) {
-      this.reset();
+      this.resetVisibility();
     }
   }
 
-  reset() {
+  resetVisibility() {
     this.files.forEach(v => v.visible = true);
   }
 
   increaseZoom(item: NgxFileDropEntryExtended) {
     item.zoom += 0.1;
+    item.zoom = +item.zoom.toFixed(1)
   }
 
   decreaseZoom(item: NgxFileDropEntryExtended) {
     item.zoom -= 0.1;
+    item.zoom = +item.zoom.toFixed(1)
   }
 
   private processPdf($event: TagModel) {
