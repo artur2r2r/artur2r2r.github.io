@@ -1,3 +1,4 @@
+<h1>Upload pdfs and search for a keywords</h1>
 <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)">
   <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
     Drag and Drop or click
@@ -5,7 +6,9 @@
   </ng-template>
 </ngx-file-drop>
 
-<tag-input (onRemove)="onItemRemoved()" [disable]="!(files.length > 0)"
+<tag-input (onRemove)="onItemRemoved()" [disable]="!(files.length > 0)" class="chips"
+           [secondaryPlaceholder]="!(files.length > 0) ? 'Please update pdf': 'Enter a buzzword'"
+           [placeholder]="'+Buzz'"
            (onAdd)="onItemAdded($event)" [(ngModel)]='items'></tag-input>
 <div class="pdf-files-wrapper">
   <ng-container *ngFor="let item of files; let i=index">
@@ -51,8 +54,3 @@
 
   </ng-container>
 </div>
-found:{{found}}
-
-<button (click)="resetVisibility()">Reset</button>
-
-

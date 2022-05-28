@@ -17,7 +17,6 @@ interface NgxFileDropEntryExtended extends NgxFileDropEntry {
 export class AppComponent {
   public files: NgxFileDropEntryExtended[] = [];
   items: TagModel[] = [];
-  found = false;
   initialZoomSet: boolean = false;
   zoom$: number = 0;
 
@@ -84,7 +83,6 @@ export class AppComponent {
         .then(text => {
           // console.log('PDF parsed: ', text);
           const found: RegExpMatchArray | null = text.match(new RegExp(($event as any).display, 'gi'));
-          this.found = !!found && found.length > 0;
           v.visible = !!found && found.length > 0;
         })
         .catch(reason => {
