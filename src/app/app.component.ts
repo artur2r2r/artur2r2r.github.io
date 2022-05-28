@@ -65,33 +65,15 @@ export class AppComponent {
     this.processPdf($event);
   }
 
-  onItemRemoved($event: TagModel) {
-    this.processPdf($event);
+  onItemRemoved() {
     if (this.items?.length === 0) {
       this.reset();
     }
   }
 
   reset() {
-    this.files.forEach(v => v.visible = true)
+    this.files.forEach(v => v.visible = true);
   }
-
-  // pageRendered(ev: CustomEvent<any>) {
-  //   if (this.initialZoomSet) {
-  //     return;
-  //   }
-  //
-  //   this.initialZoomSet = true;
-  //   @ts-ignore
-  // const width = ev.source.div.clientWidth;
-  // @ts-ignore
-  // const height = ev.source.div.clientHeight;
-  // const ratio = width / height;
-  // const targetHeight = 384;
-  // const requiredWidth = ratio * targetHeight;
-  // const scale = requiredWidth / width;
-  // this.setState('zoom', scale);
-  // }
 
   increaseZoom(item: NgxFileDropEntryExtended) {
     item.zoom += 0.1;
@@ -103,45 +85,17 @@ export class AppComponent {
 
   private processPdf($event: TagModel) {
     this.files.forEach(v => {
-      const fileEntry = v.fileEntry as FileSystemFileEntry;
-      fileEntry.file(async f => {
-        this.pdfReader.readPdf(v.pdfSource)
-          .then(text => {
-            console.log('PDF parsed: ', text);
-            // @ts-ignore
-            const found: RegExpMatchArray = text.match(new RegExp($event.display, 'gi'));
-            this.found = found?.length > 0;
-            v.visible = found?.length > 0;
-          })
-          .catch(reason => {
-            console.error(reason)
-          });
-      });
+      this.pdfReader.readPdf(v.pdfSource)
+        .then(text => {
+          // console.log('PDF parsed: ', text);
+          const found: RegExpMatchArray | null = text.match(new RegExp(($event as any).display, 'gi'));
+          this.found = !!found && found.length > 0;
+          v.visible = !!found && found.length > 0;
+        })
+        .catch(reason => {
+          console.error(reason)
+        })
     }, (_: any) => {
     })
   }
-
-  private setState(zoom: string, scale: number) {
-    this.zoom$ = scale;
-  }
 }
-
-// onInputTextChange($event: TagModel) {
-//   if (!this.files) {
-//     return;
-//   }
-//   this.files.forEach(v => {
-//     const fileEntry = v.fileEntry as FileSystemFileEntry;
-//
-//     this.pdfReader.readPdf(fileEntry.fullPath)
-//       .then(text => {
-//         console.log('PDF parsed: ', text);
-//         // @ts-ignore
-//         this.found = text.indexOf(this.items[0]['display']) > 1;
-//         // alert('PDF parsed: ' + text);
-//       })
-//       .catch(reason => {
-//         console.error(reason)
-//       });
-//   })
-// }
