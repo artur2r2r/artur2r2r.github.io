@@ -18,6 +18,10 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
+    "ng2-pdf-viewer": "^9.0.0",
+    "ngx-chips": "^3.0.0",
+    "ngx-file-drop": "^13.0.0",
+    "pdfjs-dist": "2.13.216",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

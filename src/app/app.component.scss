@@ -1,0 +1,11 @@
+.pdf-files-wrapper {
+  display: flex;
+  gap: 15px;
+  flex-flow: wrap;
+
+  &-child {
+    text-align: center;
+    flex: 1 0 25%;
+
+  }
+}
